@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\xampp\htdocs\productmanage\phpunit.xml" tests="4" assertions="6" errors="0" failures="0" skipped="0" time="0.010738">
+    <testsuite name="Inventory Application Tests" tests="4" assertions="6" errors="0" failures="0" skipped="0" time="0.010738">
+      <testsuite name="InputValidationTest" file="C:\xampp\htdocs\productmanage\tests\InputValidationTest.php" tests="4" assertions="6" errors="0" failures="0" skipped="0" time="0.010738">
+        <testcase name="testValidProductInputs" file="C:\xampp\htdocs\productmanage\tests\InputValidationTest.php" line="15" class="InputValidationTest" classname="InputValidationTest" assertions="3" time="0.009721"/>
+        <testcase name="testInvalidNegativeQuantityFails" file="C:\xampp\htdocs\productmanage\tests\InputValidationTest.php" line="39" class="InputValidationTest" classname="InputValidationTest" assertions="1" time="0.000439"/>
+        <testcase name="testInvalidNonNumericPriceFails" file="C:\xampp\htdocs\productmanage\tests\InputValidationTest.php" line="51" class="InputValidationTest" classname="InputValidationTest" assertions="1" time="0.000262"/>
+        <testcase name="testEmptyNameFails" file="C:\xampp\htdocs\productmanage\tests\InputValidationTest.php" line="63" class="InputValidationTest" classname="InputValidationTest" assertions="1" time="0.000317"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

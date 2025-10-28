@@ -1,0 +1,1 @@
+{"version":2,"defects":[],"times":{"InputValidationTest::testValidProductInputs":0.01,"InputValidationTest::testInvalidNegativeQuantityFails":0,"InputValidationTest::testInvalidNonNumericPriceFails":0,"InputValidationTest::testEmptyNameFails":0}}
