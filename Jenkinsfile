@@ -5,7 +5,9 @@ pipeline {
     environment {
         // --- UPDATE THESE PATHS IF DIFFERENT ---
         PHP_EXE = 'C:/xampp/php/php.exe' 
-        PYTHON_EXE = 'C:/Python312/python.exe' 
+        // ... inside environment { ...
+        PYTHON_EXE = 'C:/Users/waran/AppData/Local/Programs/Python/Python312/python.exe'
+    // ...
         
         JUNIT_REPORT_PATH = 'build/logs/*.xml'
     }
