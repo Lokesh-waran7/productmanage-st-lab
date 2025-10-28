@@ -19,13 +19,10 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                // Windows command to create log directory (safe, even if it exists)
-                bat 'mkdir build\\logs'
-                
-                // FINAL FIX: Using 'bat' and running the committed 'composer.phar' directly
-                // 'install' is used instead of 'update' because it's faster and more stable for CI.
-                bat "${PHP_EXE} composer.phar install --no-dev" 
-            }
+        // REMOVED: Bypassing unstable dependency installation
+        echo 'Skipping dependency installation; using committed vendor folder.'
+    }
+
         }
         
         stage('Unit Tests (PHP)') {
