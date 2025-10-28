@@ -1,5 +1,5 @@
 pipeline {
-    agent any // Use any available executor on the Jenkins server
+    agent any
 
     // Define environment variables for easy path referencing
     environment {
@@ -14,32 +14,31 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // Jenkins automatically checks out the code configured in the job
                 echo "Starting CI for job ${env.JOB_NAME} build ${env.BUILD_NUMBER}"
             }
         }
         
         stage('Install Dependencies') {
             steps {
-                // Creates the report directory structure
-                sh 'mkdir -p build/logs' 
+                // CORRECTED: Using 'bat' for Windows directory creation
+                bat 'mkdir build\\logs'
                 
-                // Install/Update PHP dependencies (PHPUnit)
-                sh "${PHP_EXE} vendor/bin/composer update --no-dev" 
+                // CORRECTED: Using 'bat' to run the Composer executable path
+                bat "${PHP_EXE} vendor\\bin\\composer update --no-dev" 
             }
         }
         
         stage('Unit Tests (PHP)') {
             steps {
-                // Run PHPUnit tests using the XML config and outputting the JUnit report
-                sh "${PHP_EXE} vendor/bin/phpunit -c phpunit.xml --log-junit build/logs/unit_junit.xml"
+                // CORRECTED: Using 'bat' to run the PHP executable path
+                bat "${PHP_EXE} vendor\\bin\\phpunit -c phpunit.xml --log-junit build\\logs\\unit_junit.xml"
             }
         }
         
         stage('E2E Tests (Selenium)') {
             steps {
-                // Run Pytest (for Selenium) and output its JUnit report
-                sh "${PYTHON_EXE} -m pytest e2e_tests/ --junitxml=build/logs/e2e_junit.xml"
+                // CORRECTED: Using 'bat' to run the Python executable path
+                bat "${PYTHON_EXE} -m pytest e2e_tests/ --junitxml=build\\logs\\e2e_junit.xml"
             }
         }
     }
@@ -50,9 +49,8 @@ pipeline {
             // CRITICAL: This step reads ALL XML reports and publishes them to the Jenkins dashboard
             junit JUNIT_REPORT_PATH
             
-            // JIRA Integration (This links the build status to the PROJ-101 ticket)
+            // JIRA Integration Message
             echo "Publishing test results to dashboard and updating JIRA..."
-            // (The specific JIRA update command depends on your plugin, but the report is the main proof)
         }
         failure {
             echo 'Build FAILED! Check console output for PHP or Python errors.'
