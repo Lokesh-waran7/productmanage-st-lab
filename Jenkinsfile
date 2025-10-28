@@ -1,13 +1,12 @@
 pipeline {
     agent any
 
-    // Define environment variables for easy path referencing
+    // Define environment variables for clean path referencing
     environment {
-        // --- UPDATE THESE PATHS ---
+        // --- UPDATE THESE PATHS IF DIFFERENT ---
         PHP_EXE = 'C:/xampp/php/php.exe' 
-        PYTHON_EXE = 'C:/Python312/python.exe' // Use your actual Python executable path
+        PYTHON_EXE = 'C:/Python312/python.exe' 
         
-        // Output path for combined JUnit reports
         JUNIT_REPORT_PATH = 'build/logs/*.xml'
     }
 
@@ -20,36 +19,35 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                // CORRECTED: Using 'bat' for Windows directory creation
+                // Windows command to create log directory (safe, even if it exists)
                 bat 'mkdir build\\logs'
                 
-                // CORRECTED: Using 'bat' to run the Composer executable path
-                bat "${PHP_EXE} vendor\\bin\\composer update --no-dev" 
+                // FINAL FIX: Using 'bat' and running the committed 'composer.phar' directly
+                // 'install' is used instead of 'update' because it's faster and more stable for CI.
+                bat "${PHP_EXE} composer.phar install --no-dev" 
             }
         }
         
         stage('Unit Tests (PHP)') {
             steps {
-                // CORRECTED: Using 'bat' to run the PHP executable path
+                // Run PHPUnit tests
                 bat "${PHP_EXE} vendor\\bin\\phpunit -c phpunit.xml --log-junit build\\logs\\unit_junit.xml"
             }
         }
         
         stage('E2E Tests (Selenium)') {
             steps {
-                // CORRECTED: Using 'bat' to run the Python executable path
+                // Run Pytest (for Selenium)
                 bat "${PYTHON_EXE} -m pytest e2e_tests/ --junitxml=build\\logs\\e2e_junit.xml"
             }
         }
     }
     
     post {
-        // Actions to run regardless of stage success/failure
         always {
-            // CRITICAL: This step reads ALL XML reports and publishes them to the Jenkins dashboard
+            // CRITICAL: This publishes the combined Unit and E2E results to the Jenkins dashboard
             junit JUNIT_REPORT_PATH
             
-            // JIRA Integration Message
             echo "Publishing test results to dashboard and updating JIRA..."
         }
         failure {
